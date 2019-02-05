@@ -1,41 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uF6.ejercicios.practica1.navegadorPersistenteConsola;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-/**
- *
- * @author pguitart
- */
-class Historial implements Serializable{
-    
+public class Historial implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	
-	private String url;
-    private LocalDateTime data;
+	private String NombreURL;
+	private LocalDate fechaActual;
+	private LocalTime hora;
+	
+	//CONSTRUCTOR
+	public Historial(String nombreURL) {
+		this.NombreURL = nombreURL;
+		this.fechaActual = LocalDate.now();
+		this.hora = LocalTime.now();
+	}
+	
+	
+	//GETTER Y SETTER
+	public String getNombreURL() {
+		return NombreURL;
+	}
 
-    public Historial(String url) {
-        this.url = url;
-        data = LocalDateTime.now();
-    }
+	public LocalDate getFechaActual() {
+		return fechaActual;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public LocalTime getHora() {
+		return hora;
+	}
 
-    public LocalDateTime getData() {
-        return data;
-    }
+	public void setNombreURL(String nombreURL) {
+		NombreURL = nombreURL;
+	}
 
-    @Override
-    public String toString() {
-        return "Historial{" + "url=" + url + ", data=" + data + '}';
-    }
-    
-    
+	public void setFechaActual(LocalDate fechaActual) {
+		this.fechaActual = fechaActual;
+	}
+
+	public void setHora(LocalTime hora) {
+		this.hora = hora;
+	}
+
+
+	//METODOS
+	@Override
+	public String toString() {
+		return "\nURL: " + NombreURL + 
+				"\nFecha: " + fechaActual + 
+				" - Hora: " + hora.getHour() + ":" + hora.getMinute()+ ":" + hora.getSecond();
+	}
+	
+
+	
+	
+
 }

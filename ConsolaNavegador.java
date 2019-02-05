@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-import muestras.persistenciaDatos2.ArchiFarmacia;
-import muestras.persistenciaDatos2.Farmacia;
-import muestras.persistenciaDatos2.Medicamento;
 
 public class ConsolaNavegador {
 
@@ -53,23 +50,32 @@ public class ConsolaNavegador {
     //--------------------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------------------
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
     	
+    	//Guarda y reucpera los datos, es para persistencia de datos
     	ArchivoNavegador archivoNavegador = new ArchivoNavegador();
+    	Navegador firefox =  new Navegador();
+
+		//Verificara si existe el archivo de datos creado con la informacion y si es asi lo cargara
+		File file = new File("datosNavegador.ser");
+		if (file.exists()) {
+			firefox = archivoNavegador.recuperar();
+			System.out.println("Datos recuperados");
+		}
     	
-        Navegador firefox = new Navegador();
         int opcio;
-        
         do {
         	System.out.println("\n===========NAVEGADOR===========");
             System.out.println(firefox.getURL());  // muestra la pagina actual.
             System.out.println("\n===============================");
+            //Navegador.mostrarPila(firefox.getPilaEndavant());  //pila Adelante
+            //Navegador.mostrarPila(firefox.getPilaEnrere());  //pila Atras
             System.out.println("\n----------------------------------------");
             System.out.println("ADELANTE:");
-            Navegador.mostrarPila(firefox.getPilaEndavant());  //pila Adelante
+            Navegador.mostrarPila(firefox.getPilaAdelante());
             System.out.println("----------------------------------------");
             System.out.println("ATRAS:"); 
-            Navegador.mostrarPila(firefox.getPilaEnrere());  //pila Atras 
+            Navegador.mostrarPila(firefox.getPilaAtras());  
             System.out.println("----------------------------------------");
             mostrarMenuPrincipal();  //Muestra el menu de opciones00
             opcio = llegirOpcio(); // sirve para elegir una opcion del menu
@@ -77,27 +83,6 @@ public class ConsolaNavegador {
                 case ENTRAR_URL:
                     String novaURL = llegirURL();
                     firefox.anarA(novaURL); // ir a / va a la pagina web indicada
-                    
-                    File file = new File("datosNavegador.ser");
-                    if (file.exists()) {
-                    	Navegador recu = recuperar(); 
-                    	System.out.println("a1: " + recu.getURL());
-                    	System.out.println("a2: " + recu.getHistorial());
-                    	System.out.println("a3: " + recu.getPreferits());
-                    	System.out.println("a4: " + recu.getPilaEndavant());
-                    	System.out.println("a5: " + recu.getPilaEnrere());
-                    	System.out.println("a6: " + recu.getVisites());
-      
-                    	System.out.println("Datos recuperados");
-						
-					} else {
-						
-						 guardar(firefox);
-						 System.out.println("Datos guardados");
-					}
-                    
-                    
-                   
                     break;
                 case ENRERE: // Atras
                     firefox.enrere(); // 
@@ -121,6 +106,9 @@ public class ConsolaNavegador {
                     firefox.veureVisitades();
                     break;
                 case SORTIR:
+                	archivoNavegador.guardar(firefox);
+                	//guardar(firefox);
+    				System.out.println("Datos guardados");
                     break;    
                 default:
                     System.out.println("Opcio incorrecta");
@@ -144,32 +132,6 @@ public class ConsolaNavegador {
         } while (URL.isEmpty());
 
         return URL;
-    }
-    
-    
-    //--------------------------------------------------------------------------------------------------------------
-    //--------------------------------------------------------------------------------------------------------------
-    
-    
-    public static void guardar(Navegador navegador) throws IOException{
-		//Objeto para implementar la persistencia: Guardar objeto Navegador en archivo
-    	ArchivoNavegador archivoNavegador = new ArchivoNavegador();
-    	archivoNavegador.guardar(navegador);
-		System.out.println("Almacenamiento Correcto");
-	}
-    
-    
-    
-    public static Navegador recuperar()throws IOException, ClassNotFoundException {
-		// Onjeto para implementar la persistencia: Recuperar objeto Navegador archivo
-    	ArchivoNavegador archivoNavegador = new ArchivoNavegador();
-    	Navegador recuperar = archivoNavegador.recuperar();
-		return recuperar;
-	}
-    
-    
-    
-    
-    
+    }    
 
 }
