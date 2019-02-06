@@ -107,7 +107,6 @@ public class ConsolaNavegador {
                     break;
                 case SORTIR:
                 	archivoNavegador.guardar(firefox);
-                	//guardar(firefox);
     				System.out.println("Datos guardados");
                     break;    
                 default:
